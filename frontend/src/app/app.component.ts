@@ -6,5 +6,42 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Test with docker';
+
+
+  public date;
+  public title = 'Sistema de Votación';
+  public role;
+  public url: string;
+
+
+   constructor(){
+      
+      this.role = {name:""};
+      this.date = new Date().getFullYear();
+      this.loadRole();
+      //this.url = global.url;
+  }
+
+  ngDoCheck(){
+    
+    this.loadRole();
+    
+  }
+
+  ngOnInit(){
+
+    console.log('WebApp Cargada');
+        
+  }
+
+
+  loadRole(){
+     
+     this.role.name = localStorage.getItem('role');
+     //console.log(this.role.name);
+
+  }
+
+
+
 }

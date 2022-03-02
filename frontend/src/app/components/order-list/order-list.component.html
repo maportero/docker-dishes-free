@@ -1,0 +1,50 @@
+	<div class="col-md-8 container bg-white p-3 rounded mt-3" >
+       <h1>{{page_title}}</h1>
+		<div class="alert alert-warning" *ngIf="orders && orders.length == 0 ">
+			No hay solicitude de ordenes registradas.
+		</div>
+       	<div class="loading" *ngIf="!orders">
+		Cargando...
+		</div>
+		<!-- LISTADO DE SOLICITUDES DE ORDENES -->
+		<table class="table table-striped mt-2" *ngIf="orders && orders.length >=1 ">
+		  <thead>
+		    <tr>
+		      <th scope="col">#Id</th>
+		      <th scope="col">Creación</th>
+		      <th scope="col">Cantidad Platos</th>
+		      <th scope="col">Estado</th>
+		      <th scope="col">Actualización</th>
+		      <th *ngIf="role.name =='COCINERO'" scope="col">Acción</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr *ngFor="let order of orders | paginate: {
+                                                      itemsPerPage: pageSize,
+                                                      currentPage: p,
+                                                      totalItems: totalRows }">
+		      <th scope="row">{{ order.id }}</th>
+		      <td>{{ order.created_at }}</td>
+		      <td>{{ order.amount }}</td>
+		      <td class= "{{ colorStatus[ order.status]}}" >{{ order.status }}</td>
+		      <td >{{ order.updated_at }}</td>
+		      <td *ngIf="role.name =='COCINERO'" >
+		      	
+				<a class="btn btn-sm btn-success mr-2 text-white" [routerLink] = "['/order-process', order.id]">Ver</a>			
+
+		      </td>
+		    </tr>
+
+		  </tbody>
+		</table>
+		<span class="has-text-centered">
+		    <pagination-controls (pageChange)="p = $event" 
+		    					directionLinks="true"
+                      			autoHide="true"
+                      			responsive="true"
+			                    previousLabel="Anterior"
+			                    nextLabel="Siguiente">
+			</pagination-controls>
+			Total de registros {{totalRows}}
+		</span>
+	</div>

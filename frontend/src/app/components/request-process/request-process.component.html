@@ -1,0 +1,58 @@
+<div class="container bg-white p-3 rounded mt-3" >
+       <h1>{{page_title}}</h1>
+		<div class="alert alert-warning" *ngIf="requestStores && requestStores.length == 0 ">
+			No hay solicitudes de ingredientes registradas.
+		</div>
+       	<div class="loading" *ngIf="!requestStores">
+		Cargando...
+		</div>
+		
+		<!-- LISTADO DE requestStoreES SOLICITADOS-->
+		<table class="table table-striped mt-2" *ngIf="requestStores && requestStores.length >=1 ">
+		  <thead>
+		    <tr>
+		      <th scope="col">Nro. solicitud</th>
+		      <th scope="col">Creación</th>
+		      <th scope="col">Nro. Orden</th>
+		      <th scope="col">Ingrediente</th>
+		      <th scope="col">Unidades</th>
+		      <th scope="col">Estado </th>
+		      <th scope="col">Actualización </th>
+		      <th scope="col">Acción </th>
+		    </tr>
+		  </thead>
+
+		  <tbody>
+		    <tr *ngFor="let requestStore of requestStores | paginate: {
+                                                      itemsPerPage: pageSize,
+                                                      currentPage: p,
+                                                      totalItems: totalRows }">
+		      
+		      <th scope="row">{{ requestStore.id }}</th>
+		      <td>{{ requestStore.created_at }}</td>
+		      <td>{{ requestStore.order_id }}</td>
+		      <td>{{ requestStore.ingredient_name }}</td>
+		      <td>{{ requestStore.amount }}</td>
+		      <td class= '{{colorStatus[requestStore.status]}}' >{{ requestStore.status }}</td>
+		      <td>{{ requestStore.updated_at }}</td>
+		      <td  >
+		      	
+				<a class="btn btn-sm btn-success mr-2 text-white" (click)="processRequestStore(requestStore)">Procesar</a>			
+
+		      </td>
+		    </tr>
+
+		  </tbody>
+		</table>
+		<span class="has-text-centered">
+		    <pagination-controls (pageChange)="p = $event" 
+		    					directionLinks="true"
+                      			autoHide="true"
+                      			responsive="true"
+			                    previousLabel="Anterior"
+			                    nextLabel="Siguiente">
+			</pagination-controls>
+			Total de solicitudes {{totalRows}}
+		</span>
+</div>
+	

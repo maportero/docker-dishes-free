@@ -1,0 +1,32 @@
+<div class="col-md-2 container mt-3 bg-white rounded p-3" >
+	<h1><strong>MODULO DE INGRESO</strong></h1>
+	<hr>
+	<h4>{{page_title}}</h4>
+	<p *ngIf="!status">Bienvendio(a)!!</p>
+
+	<!-- Fromulario de login -->
+	<div class="alert alert-danger " *ngIf="status == 'error' ">
+		Ingreso fallido.
+	</div>
+	<form class=" ml-0 pl-0" #loginForm="ngForm" (ngSubmit) = "onSubmit(loginForm)" >
+		<div class="form-group" >
+				<label >Seleccione el Departamento: </label>
+
+				<select name="role" (ngModelChange) = "onChangeSelect($event)" #role = "ngModel" [(ngModel)] = "role.name" class="form-control " required>
+
+					<option  value="GERENTE" >
+						Gerencia
+					</option>
+					<option  value="COCINERO" >
+						Cocina
+					</option>
+					<option  value="BODEGERO" >
+						Bodega
+					</option>		
+				</select>
+		</div>
+		  <div id="idButton" style="{{ display }}" >
+			<button  type="submit" class="btn btn-success" [disabled] = "loginForm.invalid" >Ingresar</button>
+		  </div>
+	</form>
+</div>

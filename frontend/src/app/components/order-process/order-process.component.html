@@ -1,0 +1,76 @@
+
+<div class = 'd-flex justify-content-center'>
+
+	<div class="col-md-3 mt-3 bg-white p-3 rounded">
+	<h1 *ngIf = "order.status !== 'Orden completada'" >{{page_title}}</h1>
+	<h1 *ngIf = "order.status === 'Orden completada'" >Historial de Ordenes</h1>
+	<div class="alert alert-danger col-md-12" *ngIf="status == 'error' ">		
+		El proceso no se ha completado correctamente.
+	</div>
+	<div class="alert alert-success col-md-12" *ngIf="status == 'success' ">		
+		Se procesó correctamente la orden
+	</div>
+	<form class=" ml-0 pl-0" #orderForm="ngForm" (ngSubmit) = "onSubmit(orderForm)">
+		<div class="form-group">
+			<label for="id">Nro. Orden</label>
+			<input type="text" name="id" class="form-control" #id = "ngModel" [(ngModel)] = "order.id" [disabled] = "true" >
+		</div>		
+		<div class="form-group">
+			<label for="amount">Cantidad de Platos</label>
+			<input type="text" name="amount" class="form-control" #amount = "ngModel" [(ngModel)] = "order.amount" [disabled] = "true" >
+		</div>
+		<div class="form-group">
+			<label for="recipe_name">Nombre de la Receta</label>
+			<input type="text" name="recipe_name" class="form-control" #recipe_name = "ngModel" [(ngModel)] = "order.recipe_name" [disabled] = "true" >
+		</div>
+		<div class="form-group">
+			<label for="xStatus">Estado</label>
+			<input type="text" name="xStatus" class="form-control {{colorStatus[order.status]}}" #xStatus = "ngModel" [(ngModel)] = "order.status" [disabled] = "true">
+		</div>
+		  <div  *ngIf = "order.status !== 'Orden completada' " style="{{ display }}" >
+			<button  type="submit" class="btn btn-success " [disabled] = "orderForm.invalid" >Procesar</button>
+		  </div>
+	</form>
+</div>
+<div class="col-md-6 ml-3 mt-3 bg-white p-3 rounded" >
+	    <h5  >Ingredientes de la orden</h5>
+	    <div class="loading" *ngIf="!ingredients">
+		Cargando...
+		</div>
+
+		<!-- LISTADO DE INGREDIENTES -->
+		<table class="table table-striped mt-2" *ngIf="ingredients && ingredients.length >=1 ">
+		  <thead>
+		    <tr>
+		      <th scope="col">Nombre</th>
+		      <th scope="col">Creación</th>
+		      <th scope="col">Unidades Requeridas</th>
+		      <th scope="col">Unidades Disponibles</th>
+		    </tr>
+		  </thead>
+
+		  <tbody>
+		    <tr *ngFor="let ingredient of ingredients | paginate: {
+                                                      itemsPerPage: pageSize,
+                                                      currentPage: p,
+                                                      totalItems: totalRows }">
+		      <th scope="row">{{ ingredient.ingredient_name }}</th>
+		      <td>{{ ingredient.created_at }}</td>
+		      <td>{{ ingredient.amountNeeded }}</td>
+		      <td>{{ ingredient.amountAvailable }}</td>
+		    </tr>
+
+		  </tbody>
+		</table>
+		<span class="has-text-centered">
+		    <pagination-controls (pageChange)="p = $event" 
+		    					directionLinks="true"
+                      			autoHide="true"
+                      			responsive="true"
+			                    previousLabel="Anterior"
+			                    nextLabel="Siguiente">
+			</pagination-controls>
+			Total de ingredientes  {{totalRows}}
+		</span>
+</div>
+</div>

@@ -1,0 +1,60 @@
+<div class="container bg-white p-3 rounded mt-3" >
+       <h1>{{page_title}}</h1>
+		<div class="alert alert-warning" *ngIf="purchaseRequests && purchaseRequests.length == 0 ">
+			No hay solicitudes de compras registradas.
+		</div>
+       	<div class="loading" *ngIf="!purchaseRequests">
+		Cargando...
+		</div>
+		
+		<!-- LISTADO DE COMPRAS SOLICITADAS-->
+		<table class="table table-striped mt-2" *ngIf="purchaseRequests && purchaseRequests.length >=1 ">
+		  <thead>
+		    <tr>
+		      <th scope="col">Nro. solicitud</th>
+		      <th scope="col">Creación</th>
+		      <th scope="col">Nro. Orden</th>
+		      <th scope="col">Ingrediente</th>
+		      <th scope="col">Unidades solicitadas</th>
+		      <th scope="col">Unidades compradas en MKP</th>
+		      <th scope="col">Estado </th>
+		      <th scope="col">Actualización </th>
+		      <th scope="col">Acción </th>
+		    </tr>
+		  </thead>
+
+		  <tbody>
+		    <tr *ngFor="let purchaseRequest of purchaseRequests | paginate: {
+                                                      itemsPerPage: pageSize,
+                                                      currentPage: p,
+                                                      totalItems: totalRows }">
+		      
+		      <th scope="row">{{ purchaseRequest.id }}</th>
+		      <td>{{ purchaseRequest.created_at }}</td>
+		      <td>{{ purchaseRequest.order_id }}</td>
+		      <td>{{ purchaseRequest.ingredient_name }}</td>
+		      <td>{{ purchaseRequest.amount }}</td>
+		      <td>{{ purchaseRequest.amountPurchase }} </td>
+		      <td class= "{{colorStatus['Enviado a compra']}}" >{{ purchaseRequest.status }}</td>
+		      <td>{{ purchaseRequest.updated_at }}</td>
+		      <td >
+		      	
+				<a class="btn btn-sm btn-success mr-2 text-white" (click)="processPurchaseRequest(purchaseRequest)">Comprar</a>			
+
+		      </td>
+		    </tr>
+
+		  </tbody>
+		</table>
+		<span class="has-text-centered">
+		    <pagination-controls (pageChange)="p = $event" 
+		    					directionLinks="true"
+                      			autoHide="true"
+                      			responsive="true"
+			                    previousLabel="Anterior"
+			                    nextLabel="Siguiente">
+			</pagination-controls>
+			Total de solicitudes {{totalRows}}
+		</span>
+</div>
+	

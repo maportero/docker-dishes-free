@@ -1,0 +1,61 @@
+
+<div class = 'd-flex justify-content-center'>
+	<div class="col-md-2 mt-3 bg-white p-3 rounded">
+		<h1>Receta</h1>
+		<div class="alert alert-danger col-md-12" *ngIf="status == 'error' ">		
+			El proceso no se ha completado correctamente.
+		</div>
+		<div class="alert alert-success col-md-12" *ngIf="status == 'success' ">		
+			Se procesó correctamente la orden
+		</div>
+		<form class="col-md-12 ml-0 pl-0 col-md-6" #recipeForm="ngForm" >
+			<div class="form-group">
+				<label for="id">Nro. Receta</label>
+				<input type="text" name="id" class="form-control" #id = "ngModel" [(ngModel)] = "recipe.id" [disabled] = "true" >
+			</div>		
+			<div class="form-group">
+				<label for="name">Nombre de la Receta</label>
+				<input type="text" name="name" class="form-control" #name = "ngModel" [(ngModel)] = "recipe.name" [disabled] = "true" >
+			</div>
+		</form>
+	</div>
+
+	<div class="col-md-4 ml-2 mt-3 bg-white p-3 rounded" >
+		    <h5  >Ingredientes de la Receta</h5>
+		    <div class="loading" *ngIf="!ingredients">
+			Cargando...
+			</div>
+
+			<!-- LISTADO DE INGREDIENTES -->
+			<table class="table table-striped mt-2" *ngIf="ingredients && ingredients.length >=1 ">
+			  <thead>
+			    <tr>
+			      <th scope="col">Nombre</th>
+			      <th scope="col">Unidades</th>
+			    </tr>
+			  </thead>
+
+			  <tbody>
+			    <tr *ngFor="let ingredient of ingredients | paginate: {
+	                                                      itemsPerPage: pageSize,
+	                                                      currentPage: p,
+	                                                      totalItems: totalRows }">
+			      <th scope="row">{{ ingredient.ingredient.name }}</th>
+			      <td>{{ ingredient.amount }}</td>
+			    </tr>
+
+			  </tbody>
+			</table>
+			<span class="has-text-centered">
+			    <pagination-controls (pageChange)="p = $event" 
+			    					directionLinks="true"
+	                      			autoHide="true"
+	                      			responsive="true"
+				                    previousLabel="Anterior"
+				                    nextLabel="Siguiente">
+				</pagination-controls>
+				Total de ingredientes  {{totalRows}}
+			</span>
+</div>
+
+</div>

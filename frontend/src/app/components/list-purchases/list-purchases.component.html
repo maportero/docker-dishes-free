@@ -1,0 +1,48 @@
+<div class="col-md-7 container bg-white p-3 rounded mt-3" >
+       <h1>{{page_title}}</h1>
+		<div class="alert alert-warning" *ngIf="purchases && purchases.length == 0 ">
+			No hay compras registradas.
+		</div>
+       	<div class="loading" *ngIf="!purchases">
+		Cargando...
+		</div>
+		
+		<!-- LISTADO DE COMPRAS REALIZADAS-->
+		<table class="table table-striped mt-2" *ngIf="purchases && purchases.length >=1 ">
+		  <thead>
+		    <tr>
+		      <th scope="col">Nro. Compra</th>
+		      <th scope="col">Creación</th>
+		      <th scope="col">Ingrediente</th>
+		      <th scope="col">Unidades compradas</th>
+		      <th scope="col">Estado </th>
+		    </tr>
+		  </thead>
+
+		  <tbody>
+		    <tr *ngFor="let purchase of purchases | paginate: {
+                                                      itemsPerPage: pageSize,
+                                                      currentPage: p,
+                                                      totalItems: totalRows }">
+		      
+		      <th scope="row">{{ purchase.id }}</th>
+		      <td>{{ purchase.created_at }}</td>
+		      <td>{{ purchase.ingredient_name }}</td>
+		      <td>{{ purchase.amount }}</td>
+		      <td class= "{{colorStatus[purchase.status]}}" >{{ purchase.status }}</td>
+
+		    </tr>
+
+		  </tbody>
+		</table>
+		<span class="has-text-centered">
+		    <pagination-controls (pageChange)="p = $event" 
+		    					directionLinks="true"
+                      			autoHide="true"
+                      			responsive="true"
+			                    previousLabel="Anterior"
+			                    nextLabel="Siguiente">
+			</pagination-controls>
+			Total de compras {{totalRows}}
+		</span>
+</div>

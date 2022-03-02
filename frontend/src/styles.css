@@ -1,1 +1,57 @@
-/* You can add global styles to this file, and also import other style files */
+
+*{
+
+ font-size:  12px;
+ 
+}
+h1{
+ 	font-size: 18px!important;
+}
+
+.bg-container-principal{
+  background: url("./assets/images/fondo01.jpg");
+  min-height: 500px!important;
+  background-size: cover;
+}
+.bg-container-home{
+  background: url("./assets/images/logoFondo.png");
+  height: 150px!important;
+  width: 250px!important;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.avatar_edit{
+	width: 100px;
+	height: 100px;
+	margin-bottom: 10px;
+}
+.avatar_menu{
+	border-radius: 900px;
+	overflow: hidden;
+	width: 30px;
+	height: 30px;
+	margin-top: 5px;
+}
+.card-header a{
+	color: #444;
+}
+
+
+input[type=radio]{
+  margin-top: 15px;	
+  transform:scale(2.5);
+}
+
+.list-vote-radio {
+  
+  transform:scale(2.5);
+}
+.list-vote-image{
+	height: 250px;
+
+	overflow: hidden;
+}
+
+footer{
+	margin-top: 50px;
+}

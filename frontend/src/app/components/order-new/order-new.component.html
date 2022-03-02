@@ -1,0 +1,29 @@
+<div class="col-md-3 container mt-3 bg-white rounded p-3" >
+	<h1><strong>MODULO DE GERENCIA</strong></h1>
+	<hr>
+	<h4>{{page_title}}</h4>
+	
+
+	<!-- Fromulario de login -->
+	<div class="alert alert-danger " *ngIf="status == 'error' ">
+		No se procesó la solicitud 
+	</div>
+	<div class="alert alert-success " *ngIf="status == 'success' ">
+		Se creó la solicitud de platos satisfactoriamente 
+	</div>
+	<form class=" col-md-3 ml-0 pl-0" #orderForm="ngForm" (ngSubmit) = "onSubmit(orderForm)" >
+		<div class="form-group">
+			<label for="amount">Cantidad</label>
+			<input type="text" name="amount" class="form-control" #amount = "ngModel" [(ngModel)] = "order.amount" required pattern="[1-9]+">
+			<small *ngIf="!amount.valid && amount.touched" class="invalid-feedback d-block">
+				"La cantidad debe ser valor entero >= 1"
+			</small>
+			<small *ngIf="errors" class="invalid-feedback d-block">
+				{{ errors['amount'] }}
+			</small>
+		</div>
+		  <div id="idButton" style="{{ display }}" >
+			<button  type="submit" class="btn btn-success" [disabled] = "orderForm.invalid" >Generar</button>
+		  </div>
+	</form>
+</div>
